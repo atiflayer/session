@@ -13,7 +13,7 @@
 
 <body>
     <div class="container" style="margin-top:16px">
-        <h4>Create Product</h4>
+        <h4>Session / Cart</h4>
 
         <form action="<?= base_url('postdata')?>" method="POST">
 
@@ -21,20 +21,21 @@
                 <label for="productname" class="form-label">Product Name</label>
                 <input type="text" class="form-control" name="productname">
             </div>
-            <!-- <div class="mb-3">
+            <div class="mb-3">
                 <label for="productquantity" class="form-label">Product Quantity</label>
                 <input type="number" class="form-control" name="productquantity">
-            </div> -->
-            <div class="mb-3">
+            </div>
+             <div class="mb-3">
                 <label for="productcode" class="form-label">Product Code</label>
                 <input type="text" class="form-control" name="productcode">
             </div>
-            <div class="mb-3">
+             <div class="mb-3">
                 <label for="productprice" class="form-label">Product Price</label>
                 <input type="number" class="form-control" name="productprice">
-            </div>
+            </div> 
 
-            <button type="submit" class="btn btn-primary">Add Product</button>
+
+            <button type="submit" class="btn btn-primary">Add To Cart</button>
         </form>
     </div>
     <div class="container" style="margin-top:16px">
@@ -48,16 +49,16 @@
         <?php endforeach ;}?>
 
         <form action="<?= base_url('postsubmit')?>" method="POST">
-            <h4>Product List</h4>
+            <h4>Product Create Table</h4>
             <table id="table" class="table">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Product Code</th>
                         <th>Product Name</th>
-                        <!--                        <th>Product Quantity</th>-->
+                        <th>Product Quantity</th>
                         <th>Product Price</th>
-                        <!--                        <th>Sum Price</th>-->
+                        <th>Sum Price</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,14 +67,14 @@
                         <th><?= $serial++ ?></th>
                         <td><?= $row['productcode'] ?></td>
                         <td><?= $row['productname'] ?></td>
-                        <!--                        <td></?= $row['productquantity'] ?></td>-->
+                        <td><?= $row['productquantity'] ?></td>
                         <td><?= $row['productprice'] ?></td>
                         <td></td>
                         <!--</?= $row['sumprice'] ?>-->
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
-                <!--               <tfoot>
+               <tfoot>
                     <tr>
                         <td>Total</td>
                         <td></td>
@@ -82,17 +83,12 @@
                         <td></td>  
                         <td></td>  
                     </tr>
-                </tfoot>-->
+                </tfoot>
             </table>
             <button type="submit" class="btn btn-primary">Submit</button>
-        </form></br>
-        <div>
-        <form action="<?= base_url('home/fetch')?>" method="POST">
-            <button type="submit" class="btn btn-primary">Go to Product List</button>
         </form>
     </div>
-</div>
-
+    </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
 

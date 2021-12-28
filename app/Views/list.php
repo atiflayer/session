@@ -10,31 +10,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <title>Session</title>
+    <title>Product List</title>
 </head>
 
 <body>
     <div class="container" style="margin-top:16px">
-        <h3>Session/Cart</h3>
-        <form action="<?= base_url('postdata')?>" method="POST">
-            <div class="mb-3">
-                <label for="productcode" class="form-label">Product Code</label>
-                <input type="text" class="form-control" name="productcode">
-            </div>
-            <div class="mb-3">
-                <label for="productname" class="form-label">Product Name</label>
-                <input type="text" class="form-control" name="productname">
-            </div>
-            <div class="mb-3">
-                <label for="productprice" class="form-label">Product Price</label>
-                <input type="number" class="form-control" name="productprice">
-            </div>
-            <button type="submit" class="btn btn-primary">Add To Cart</button>
-        </form>
-    </div>
-    <div class="container" style="margin-top:16px">
-        <form action="<?= base_url('postsubmit')?>" method="POST">
-            <h3>Product Create Table</h3>
+            <h3>Product List</h3>
             <table id="table" class="table">
                 <thead>
                     <tr>
@@ -45,7 +26,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $serial=1; foreach($data as $row): ?>
+                    <?php $serial=1; foreach($model as $row): ?>
                     <tr>
                         <th><?= $serial++ ?></th>
                         <td><?= $row['productname'] ?></td>
@@ -55,7 +36,6 @@
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-primary">Store</button>
         </form>
     </div>
 
