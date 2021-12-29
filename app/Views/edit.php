@@ -13,66 +13,28 @@
 
 <body>
     <div class="container" style="margin-top:16px">
-        <h4>Create Product</h4>
+        <h4>Edit Product</h4>
 
-        <form action="<?= base_url('postdata')?>" method="POST">
+        <form action="<?= base_url('update/'.$post['product_id'])?>" method="POST">
 
             <div class="mb-3">
                 <label for="productname" class="form-label">Product Name</label>
-                <input type="text" class="form-control" name="productname">
+                <input type="text" class="form-control" name="productname" value="<?= $post['productname']?>">
             </div>
             <div class="mb-3">
                 <label for="productcode" class="form-label">Product Code</label>
-                <input type="text" class="form-control" name="productcode">
+                <input type="text" class="form-control" name="productcode" value="<?= $post['productcode']?>">
             </div>
             <div class="mb-3">
                 <label for="productprice" class="form-label">Product Price</label>
-                <input type="number" class="form-control" name="productprice">
+                <input type="number" class="form-control" name="productprice" value="<?= $post['productprice']?>">
             </div>
-
-            <button type="submit" class="btn btn-success">Add Product</button>
+            <button type="submit" class="btn btn-primary">Update Product</button>
         </form>
     </div>
     <div class="container" style="margin-top:16px">
-
-        <?php if(session()->getFlashdata('status')){
-                echo "<h5>".session()->getFlashdata('status'). "</h4>";} ?>
-
-        <?php if(session()->getFlashdata('errors')){
-             foreach (session()->getFlashdata('errors') as $field => $error): ?>
-        <h4 style="color:red"><?= $error ?></h4>
-        <?php endforeach ;}?>
-
-        <form action="<?= base_url('postsubmit')?>" method="POST">
-            <h4>Product List</h4>
-            <table id="table" class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Product Code</th>
-                        <th>Product Name</th>
-                        <th>Product Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $serial=1; foreach($data as $row): ?>
-                    <tr>
-                        <th><?= $serial++ ?></th>
-                        <td><?= $row['productcode'] ?></td>
-                        <td><?= $row['productname'] ?></td>
-                        <td><?= $row['productprice'] ?></td>
-                        <td></td>
-                        <!--</?= $row['sumprice'] ?>-->
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form></br>
-        <div>
         <a href="<?= base_url('product_list_dtable')?>" class="btn btn-secondary btn-sm">Product List DataTable</a>
     </div>
-</div>
 
 
     <!-- Optional JavaScript; choose one of the two! -->

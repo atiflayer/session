@@ -16,13 +16,10 @@ class Home extends BaseController
         return view('index', $result);
     }
 
-    public function product_list_dtable()
-    {
-        return view('product_list_dtable');
-    }
     //add to cart / session
 
-    public function postData(){
+    public function postData()
+    {
         $session = session();
         if(isset($session->productdata)){
             $oldarray = $session->productdata;
@@ -70,9 +67,8 @@ class Home extends BaseController
          return redirect()->to('/');
     }
 
-    //submit session to database
-
-     public function postsubmit(){
+     public function postsubmit()
+     {
         $session = session();
         $model = new SessionModel();
         $result=$session->productdata;
@@ -80,9 +76,9 @@ class Home extends BaseController
         foreach($result as $row){
             $data = [
                 'productname'=>$row['productname'],
-                // 'productquantity'=>$row['productquantity'],
                 'productcode'=>$row['productcode'],
                 'productprice'=>$row['productprice']
+                // 'productquantity'=>$row['productquantity'],
             ];
             if ($model->save($data) === false) {
                 $session->setFlashdata('errors', $model->errors());
@@ -94,11 +90,10 @@ class Home extends BaseController
 		return redirect()->to('/');
     }
 
-    public function get_data() 
+    public function get_data()
 	{
 		$value = new SessionModel();
 		$get_data = $value->get_all_data();	
-        // $get_data = $model->findAll();
 
         $i = $_POST['start'];
 
@@ -108,9 +103,9 @@ class Home extends BaseController
                 $val->productcode,
                 $val->productname,
                 $val->productprice,
+                $val->product_id,
 			);
 		}
-        
 		$output = array(
 			"draw" => $_POST['draw'],
 			"recordsTotal" => $value->countAll(),
@@ -118,8 +113,44 @@ class Home extends BaseController
 			"data" => isset($data) ? $data : [],
 		);
 		echo json_encode($output);
-        
-        // return view('product_list_dtable', $data);
-		// return view('list', $data);
+	}
+
+    public function product_list_dtable()
+    {
+        return view('product_list_dtable');
+    }
+
+	public function edit($product_id) 
+	{	
+		$model = new SessionModel();
+		$data['post']=$model->find($product_id);
+
+		return view('edit', $data);
+	}
+
+	public function update($product_id)
+	{
+		$model = new SessionModel();
+
+		$data = $model->find($product_id);
+        // $input = $this->request->getRawInput();
+
+		$data = [   
+			'productname' => $this->request->getPost('productname'),
+            'productprice' => $this->request->getPost('productprice'),
+            'productcode' => $this->request->getPost('productcode'),
+		];
+
+		$model->update($product_id, $data);
+
+		return redirect()->to('product_list_dtable');
+	}
+
+    public function delete($product_id)
+	{	
+		$model = new SessionModel();
+        $model->delete($product_id);
+		
+		return redirect()->to('product_list_dtable');
 	}
 }
