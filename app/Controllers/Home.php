@@ -15,7 +15,12 @@ class Home extends BaseController
         }
         return view('index', $result);
     }
-    //add to cart
+
+    public function product_list_dtable()
+    {
+        return view('product_list_dtable');
+    }
+    //add to cart / session
 
     public function postData(){
         $session = session();
@@ -38,10 +43,6 @@ class Home extends BaseController
             }
 
             // if productname repeats, add quantity
-
-            // echo '<pre>';
-            // print_r($oldarray[0]);
-            // exit;
             
             // foreach($oldarray as $row){
 
@@ -52,10 +53,6 @@ class Home extends BaseController
 
             array_push($oldarray, $data);
             $session->set('productdata', $oldarray);
-
-            // echo '<pre>';
-            // print_r($row['productquantity']);
-            // exit;
 
         }else{
             $oldarray = [];
@@ -72,7 +69,8 @@ class Home extends BaseController
          $result=$session->productdata;
          return redirect()->to('/');
     }
-    //submit to database
+
+    //submit session to database
 
      public function postsubmit(){
         $session = session();
@@ -93,18 +91,18 @@ class Home extends BaseController
             }
         }
         $session->remove('productdata');
-
 		return redirect()->to('/');
     }
 
-    public function fetch()
+    public function get_data() 
 	{
-		$model = new SessionModel();
-		$data['model'] = $model->findAll();	
+		$value = new SessionModel();
+		$get_data = $value->get_all_data();	
+        // $get_data = $model->findAll();
 
-        // $i = $_POST['start'];
+        $i = $_POST['start'];
 
-		foreach ($fetch as $val) {
+		foreach ($get_data as $val) {
 			$data[] = array(
 				++$i,
                 $val->productcode,
@@ -121,7 +119,7 @@ class Home extends BaseController
 		);
 		echo json_encode($output);
         
-        // return view('productlist', $data);
+        // return view('product_list_dtable', $data);
 		// return view('list', $data);
 	}
 }

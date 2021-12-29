@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
-
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/v/dt/jq-3.6.0/dt-1.11.3/datatables.min.css" />
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.6.0/dt-1.11.3/datatables.min.js"></script>
@@ -23,12 +22,6 @@
 <div class="container" style="margin-top:16px">
         <table id="tableid" class="table table-bordered display responsive nowrap" style="border: 1px solid black;">
             <thead>
-<!--                <tr>
-                     <th rowspan="1">Name</th> 
-                    <th colspan="4">Inventory</th>
-                    <th colspan="2">User</th>
-                    <th colspan="3">Order</th>
-                </tr>-->
                 <tr>
                     <th>ID</th>
                     <th>Product Code</th>
@@ -47,9 +40,14 @@
 <script>
 function callServer() {
     $('#tableid').dataTable({
-
+        "order": [],
+        "destroy": true,
+        "responsive": true,
+        "processing": true,
+        "serverSide": true,
+        "pageLength": 10,
         "ajax": {
-            url: "<?php echo base_url('fetch'); ?>",
+            url: "<?php echo base_url('getdata'); ?>",
             type: 'POST',
             data: {
             }

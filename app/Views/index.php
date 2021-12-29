@@ -55,9 +55,9 @@
                         <th>ID</th>
                         <th>Product Code</th>
                         <th>Product Name</th>
-                        <!--                        <th>Product Quantity</th>-->
+                        <!-- <th>Product Quantity</th> -->
                         <th>Product Price</th>
-                        <!--                        <th>Sum Price</th>-->
+                        <!-- <th>Sum Price</th>-->
                     </tr>
                 </thead>
                 <tbody>
@@ -66,7 +66,7 @@
                         <th><?= $serial++ ?></th>
                         <td><?= $row['productcode'] ?></td>
                         <td><?= $row['productname'] ?></td>
-                        <!--                        <td></?= $row['productquantity'] ?></td>-->
+                        <!--<td></?= $row['productquantity'] ?></td>-->
                         <td><?= $row['productprice'] ?></td>
                         <td></td>
                         <!--</?= $row['sumprice'] ?>-->
@@ -87,7 +87,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form></br>
         <div>
-        <form action="<?= base_url('home/fetch')?>" method="POST">
+        <form action="<?= base_url('product_list_dtable')?>" method="GET">
             <button type="submit" class="btn btn-primary">Go to Product List</button>
         </form>
     </div>
