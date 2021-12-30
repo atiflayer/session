@@ -44,13 +44,7 @@
         <?php endforeach ;}?>
 
         <form action="<?= base_url('postsubmit')?>" method="POST">
-            <h4>Products in <div class="card">
-                <img class="card-img-top" src="" alt="">
-                <div class="card-body">
-                    <h5 class="card-title">Title</h5>
-                    <p class="card-text">Content</p>
-                </div>
-            </div></h4>
+            <h4>Products in Cart</h4>
             <table id="table" class="table">
                 <thead>
                     <tr>
