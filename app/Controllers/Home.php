@@ -130,26 +130,40 @@ class Home extends BaseController
 
 	public function update($product_id)
 	{
+        $session = session();
 		$model = new SessionModel();
-
-		$data = $model->find($product_id);
-        // $input = $this->request->getRawInput();
-
+        
+        // $result=$session->productdata;
+		// $data = $model->find($product_id);
+        // $input = $this->request->getPost();
+        
+        $input = $this->request->getRawInput();
+        
 		$data = [   
-			'productname' => $this->request->getPost('productname'),
-            'productprice' => $this->request->getPost('productprice'),
-            'productcode' => $this->request->getPost('productcode'),
+			'productname' => $input['productname'],
+            'productprice' => $input['productprice'],
+            'productcode' => $input['productcode'],
 		];
 
-		$model->update($product_id, $data);
-
+		if ($model->update($product_id, $data) === false){
+            $session->setFlashdata('errors', $model->errors());
+        }else{
+            $session->setFlashdata('status','Data Updated Successfully');
+        }
 		return redirect()->to('product_list_dtable');
 	}
 
     public function delete($product_id)
 	{	
+        $session = session();
 		$model = new SessionModel();
-        $model->delete($product_id);
+        // $model->delete($product_id);
+
+        if ($model->delete($product_id) === false){
+            $session->setFlashdata('errors', $model->errors());
+        }else{
+            $session->setFlashdata('status','Data Deleted Successfully');
+        }
 		
 		return redirect()->to('product_list_dtable');
 	}

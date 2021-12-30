@@ -13,7 +13,7 @@
 
 <body>
     <div class="container" style="margin-top:16px">
-        <h4>Edit Product</h4>
+        <h4>Edit Your Product</h4>
 
         <form action="<?= base_url('update/'.$post['product_id'])?>" method="POST">
 
@@ -31,9 +31,9 @@
             </div>
             <button type="submit" class="btn btn-primary">Update Product</button>
         </form>
-    </div>
-    <div class="container" style="margin-top:16px">
-        <a href="<?= base_url('product_list_dtable')?>" class="btn btn-secondary btn-sm">Product List DataTable</a>
+        <div></br>
+        <a href="<?= base_url('product_list_dtable')?>" class="btn btn-secondary">Product List DataTable</a>
+        </div>
     </div>
 
 

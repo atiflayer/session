@@ -13,7 +13,7 @@
 
 <body>
     <div class="container" style="margin-top:16px">
-        <h4>Create Product</h4>
+        <h4>Create Your Product</h4>
 
         <form action="<?= base_url('postdata')?>" method="POST">
 
@@ -30,7 +30,7 @@
                 <input type="number" class="form-control" name="productprice">
             </div>
 
-            <button type="submit" class="btn btn-success">Add Product</button>
+            <button type="submit" class="btn btn-success">Add to Cart</button>
         </form>
     </div>
     <div class="container" style="margin-top:16px">
@@ -40,11 +40,17 @@
 
         <?php if(session()->getFlashdata('errors')){
              foreach (session()->getFlashdata('errors') as $field => $error): ?>
-        <h4 style="color:red"><?= $error ?></h4>
+        <h4<?= $error ?></h4>
         <?php endforeach ;}?>
 
         <form action="<?= base_url('postsubmit')?>" method="POST">
-            <h4>Product List</h4>
+            <h4>Products in <div class="card">
+                <img class="card-img-top" src="" alt="">
+                <div class="card-body">
+                    <h5 class="card-title">Title</h5>
+                    <p class="card-text">Content</p>
+                </div>
+            </div></h4>
             <table id="table" class="table">
                 <thead>
                     <tr>
@@ -61,16 +67,14 @@
                         <td><?= $row['productcode'] ?></td>
                         <td><?= $row['productname'] ?></td>
                         <td><?= $row['productprice'] ?></td>
-                        <td></td>
-                        <!--</?= $row['sumprice'] ?>-->
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit to Product List</button>
         </form></br>
         <div>
-        <a href="<?= base_url('product_list_dtable')?>" class="btn btn-secondary btn-sm">Product List DataTable</a>
+        <a href="<?= base_url('product_list_dtable')?>" class="btn btn-secondary">List of Products</a>
     </div>
 </div>
 

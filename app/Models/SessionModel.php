@@ -41,7 +41,7 @@ class SessionModel extends Model
 
         if ($_POST['search']['value']) {    
             $search = $_POST['search']['value'];
-            $query = "productname LIKE '%$search%'";
+            $query = "productname LIKE '%$search%'  " ;
         } else {
             $query = "product_id !=''";
         }
