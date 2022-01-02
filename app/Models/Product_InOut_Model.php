@@ -4,43 +4,51 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class SessionModel extends Model
+class Product_InOut_Model extends Model
 {
-    protected $table      = 'session';
-    protected $primaryKey = 'product_id';
+    protected $table      = 'product_inout';
+    protected $primaryKey = 'product_inout_id';
     protected $allowedFields = [
         'product_id',
-        'productname',
-        'productprice',
-        'productcode',
+        'product_inout_price',
+        'product_inout_date',
+        'product_inout_quantity_in',
+        'product_inout_quantity_out',
     ];
 
     public function get_all_data()
     {
-        $builder = $this->db->table('session');
-            $this->table = 'session';
-            $this->primaryKey = 'product_id';
+        $builder = $this->db->table('product_inout');
+            $this->table = 'product_inout';
+            $this->primaryKey = 'product_inout_id';
             $this->allowedFields = [ 
                 'product_id',
-                'productname', 
-                'productprice',
-                'productcode',];
+                'product_inout_price', 
+                'product_inout_date',
+                'product_inout_quantity_in',
+                'product_inout_price'];
             $this->column_order = array(
                 'sl',
-                'productcode', 
-                'productname', 
-                'productprice');
+                // 'product_id',
+                'product_inout_price', 
+                'product_inout_date',
+                'product_inout_quantity_in',
+                // 'product_inout_quantity_out'
+            );
             $this->order = array('product_id' => 'desc'); //asc //desc
 
             $builder->select('*');
+
+            $builder->join('session', 'session.product_id = product_inout.product_id', "left"); // added left join here
+
             $builder->limit($_POST["length"], $_POST["start"]);
             $query=$builder->get()->getResult();
 
         if ($_POST['search']['value']) {    
             $search = $_POST['search']['value'];
-            $query = "productname LIKE '%$search%'" ;
+            $query = "product_inout_date LIKE '%$search%'" ;
         } else {
-            $query = "product_id !=''";
+            $query = "product_inout_id !=''";
         }
         
         if (isset($_POST["order"])) {
@@ -54,7 +62,7 @@ class SessionModel extends Model
         if ($_POST["length"] != -1) {
             $query = $builder->where($query)
                 ->orderBy($result_order, $result_dir)
-                ->orderBy('product_id', 'desc')
+                ->orderBy('product_inout_id', 'desc')
                 ->limit($_POST["length"], $_POST["start"])
                 ->get();
                
@@ -64,7 +72,7 @@ class SessionModel extends Model
 
     public function countAll()
     {
-        $builder = $this->db->table('session');
+        $builder = $this->db->table('product_inout');
         $query = $builder->countAllResults();
         return $query;
     }
@@ -72,26 +80,24 @@ class SessionModel extends Model
     {
         if ($_POST['search']['value']) {
             $search = $_POST['search']['value'];
-            $query = "AND (productname LIKE '%$search%')";
+            $query = "AND (product_inout_price LIKE '%$search%')";
         } else {
             $query = "";
         }
         $db = \Config\Database::connect();
-        $query2 = "SELECT COUNT(product_id) as rowcount FROM session WHERE product_id !='' $query";
+        $query2 = "SELECT COUNT(product_id) as rowcount FROM product_inout WHERE product_inout_id !='' $query";
         
         $query2 = $db->query($query2)->getRow();
         return $query2->rowcount;
     }
 
-    protected $validationRules    = [
-        'productcode'     => 'is_unique[session.productcode]',
-    ];
+    // protected $validationRules    = [
+    //     'productcode'     => 'is_unique[product_inout.productcode]',
+    // ];
 
-    protected $validationMessages = [
-        'productcode'        => [
-            'is_unique' => 'Sorry. That productcode has already been taken. Please choose another.',
-        ],
-    ];
+    // protected $validationMessages = [
+    //     'productcode'        => [
+    //         'is_unique' => 'Sorry. That productcode has already been taken. Please choose another.',
+    //     ],
+    // ];
 }
-
-    

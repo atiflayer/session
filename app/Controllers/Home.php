@@ -13,7 +13,7 @@ class Home extends BaseController
         }else{
             $result['data']=[];
         }
-        return view('index', $result);
+        return view('product_inout_form', $result);
     }
 
     //add to cart / session
@@ -25,8 +25,6 @@ class Home extends BaseController
             $oldarray = $session->productdata;
             $data = [
                 'productname' => $this->request->getPost('productname'),
-                'productquantity' => $this->request->getPost('productquantity'),
-
                 'productprice' => $this->request->getPost('productprice'),
                 'productcode' => $this->request->getPost('productcode')
             ];
@@ -38,16 +36,6 @@ class Home extends BaseController
                     return redirect()->to(base_url('/'))->with('status', 'Product Already Exists');
                 }
             }
-
-            // if productname repeats, add quantity
-            
-            // foreach($oldarray as $row){
-
-            //     if($data['productname']==$row['productname']){
-            //         $row['productquantity'] += $data['productquantity'];
-            //     }
-            // }
-
             array_push($oldarray, $data);
             $session->set('productdata', $oldarray);
 
@@ -55,14 +43,12 @@ class Home extends BaseController
             $oldarray = [];
             $data = [
                 'productname' => $this->request->getPost('productname'),
-                'productquantity' => $this->request->getPost('productquantity'),
                 'productprice' => $this->request->getPost('productprice'),
                 'productcode' => $this->request->getPost('productcode'),
             ];
             array_push($oldarray, $data);
             $session->set('productdata', $oldarray);
          }
-
          $result=$session->productdata;
          return redirect()->to('/');
     }
@@ -75,10 +61,9 @@ class Home extends BaseController
 
         foreach($result as $row){
             $data = [
-                'productname'=>$row['productname'],
                 'productcode'=>$row['productcode'],
-                'productprice'=>$row['productprice']
-                // 'productquantity'=>$row['productquantity'],
+                'productname'=>$row['productname'],
+                'productprice'=>$row['productprice'],
             ];
             if ($model->save($data) === false) {
                 $session->setFlashdata('errors', $model->errors());
@@ -106,6 +91,7 @@ class Home extends BaseController
                 $val->product_id,
 			);
 		}
+
 		$output = array(
 			"draw" => $_POST['draw'],
 			"recordsTotal" => $value->countAll(),
@@ -146,7 +132,7 @@ class Home extends BaseController
 		];
 
 		if ($model->update($product_id, $data) === false){
-            $session->setFlashdata('errors', $model->errors());
+            $session->setFlashdata('errors', $model->errors()); 
         }else{
             $session->setFlashdata('status','Data Updated Successfully');
         }
@@ -164,7 +150,6 @@ class Home extends BaseController
         }else{
             $session->setFlashdata('status','Data Deleted Successfully');
         }
-		
 		return redirect()->to('product_list_dtable');
 	}
 }

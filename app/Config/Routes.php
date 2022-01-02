@@ -31,20 +31,38 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
 
-$routes->get('product_list_dtable', 'Home::product_list_dtable');
 
-$routes->post('getdata', 'Home::get_data');
+$routes->get('/',                      'ProductInOut::product_inout_form/$1');
 
-$routes->post('postdata', 'Home::postData');
-$routes->post('postsubmit', 'Home::postsubmit');
+$routes->get('in/(:any)',              'ProductInOut::product_in_form/$1');
+$routes->get('out/(:any)',             'ProductInOut::product_out_form/$1');
+$routes->post('inout/getdata',         'ProductInOut::get_inout_data');
+$routes->post('inout/postdata',        'ProductInOut::postData');
+$routes->post('inout/postsubmit',      'ProductInOut::postsubmit');
+$routes->get('edit/(:any)',            'ProductInOut::edit/$1');
+$routes->post('product_inout/(:any)',  'ProductInOut::product_inout/$1');
+$routes->get('delete/(:any)',          'ProductInOut::delete/$1');
+$routes->get('product_inout_dtable',   'ProductInOut::product_inout_dtable');
 
-$routes->get('edit/(:any)', 'Home::edit/$1');
+$routes->get('getProducts',            'ProductInOut::getProducts');
 
-$routes->post('update/(:any)', 'Home::update/$1');
 
-$routes->get('delete/(:any)', 'Home::delete/$1');
+// $routes->get('/',                       'Home::index');
+$routes->post('getdata',                'Home::get_data');
+$routes->post('postdata',               'Home::postData');
+$routes->post('postsubmit',             'Home::postsubmit');
+$routes->get('edit/(:any)',             'Home::edit/$1');
+$routes->post('update/(:any)',          'Home::update/$1');
+$routes->get('delete/(:any)',           'Home::delete/$1');
+$routes->get('product_list_dtable',     'Home::product_list_dtable');
+
+
+
+
+// $routes->get('product_add', 'ProductIn::postData');
+
+
 
 
 

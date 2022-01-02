@@ -29,15 +29,17 @@
         <h1><?= $error ?></h1>
         <?php endforeach ;}?>
 
-        <h4>Product List</h4>
+        <h4>Product In Out List</h4>
         <table id="tableid" class="table table-bordered display responsive nowrap" style="border: 1px solid black;">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Product Code</th>
-                    <th>Product Name</th>
-                    <th>Product Price</th>
-                    <th>Action</th>
+                    <!-- <th>Product Code</th> -->
+                    <!-- <th>Product Name</th> -->
+                    <!-- <th>Product Price</th> -->
+                    <th>Product InOut Price</th>
+                    <th>Product InOut Date</th>
+                    <th>Product InOut Quantity</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,9 +68,9 @@ function callServer() {
         "serverSide": true,
         "pageLength": 5,
         "ajax": {
-            url: "<?php echo base_url('getdata'); ?>",
+            url: "<?php echo base_url('inout/getdata'); ?>",
             type: 'POST',
-            // data: {}
+            data: {}
         },
         "columns": [{
                 "data": null,
@@ -98,16 +100,27 @@ function callServer() {
                     return data[3];
                 }
             },
-            {
-                "data": null,
-                className: "text-right",
-                render: function(data, type, row, meta) {
-                    return '<a href="in/' + data[4] + '"class="btn btn-success btn-sm">In</a> ' + 
-                        '<a href="out/' + data[4] + '"class="btn btn-warning btn-sm">Out</a> ' +
-                        '<a href="edit/' + data[4] + '"class="btn btn-primary btn-sm">Edit</a> ' +
-                        '<a href="delete/' + data[4] + '"class="btn btn-danger btn-sm">Delete</a>' ;
-                }
-            }
+            // {
+            //     "data": null,
+            //     className: "text-right",
+            //     render: function(data, type, row) {
+            //         return data[4];
+            //     }
+            // },
+            // {
+            //     "data": null,
+            //     className: "text-right",
+            //     render: function(data, type, row) {
+            //         return data[5];
+            //     }
+            // },
+            // {
+            //     "data": null,
+            //     className: "text-right",
+            //     render: function(data, type, row) {
+            //         return data[6];
+            //     }
+            // },
         ]
     });
 }
