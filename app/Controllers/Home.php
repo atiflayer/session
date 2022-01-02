@@ -5,8 +5,7 @@ use App\Models\SessionModel;
 
 class Home extends BaseController
 {
-    public function index()
-    {
+    public function index(){
         $session = session();
         if(isset($session->productdata)){
             $result['data']=$session->productdata;
@@ -18,8 +17,7 @@ class Home extends BaseController
 
     //add to cart / session
 
-    public function postData()
-    {
+    public function postData(){
         $session = session();
         if(isset($session->productdata)){
             $oldarray = $session->productdata;
@@ -28,9 +26,6 @@ class Home extends BaseController
                 'productprice' => $this->request->getPost('productprice'),
                 'productcode' => $this->request->getPost('productcode')
             ];
-
-            //check for unique productcode
-
             foreach($oldarray as $row){
                 if($data['productcode']==$row['productcode']){
                     return redirect()->to(base_url('/'))->with('status', 'Product Already Exists');
@@ -38,7 +33,6 @@ class Home extends BaseController
             }
             array_push($oldarray, $data);
             $session->set('productdata', $oldarray);
-
         }else{
             $oldarray = [];
             $data = [
@@ -53,8 +47,7 @@ class Home extends BaseController
          return redirect()->to('/');
     }
 
-     public function postsubmit()
-     {
+     public function postsubmit(){
         $session = session();
         $model = new SessionModel();
         $result=$session->productdata;
@@ -75,8 +68,7 @@ class Home extends BaseController
 		return redirect()->to('/');
     }
 
-    public function get_data()
-	{
+    public function get_data(){
 		$value = new SessionModel();
 		$get_data = $value->get_all_data();	
 
@@ -101,36 +93,26 @@ class Home extends BaseController
 		echo json_encode($output);
 	}
 
-    public function product_list_dtable()
-    {
+    public function product_list_dtable(){
         return view('product_list_dtable');
     }
 
-	public function edit($product_id) 
-	{	
+	public function edit($product_id) {	
 		$model = new SessionModel();
 		$data['post']=$model->find($product_id);
 
 		return view('edit', $data);
 	}
 
-	public function update($product_id)
-	{
+	public function update($product_id){
         $session = session();
 		$model = new SessionModel();
-        
-        // $result=$session->productdata;
-		// $data = $model->find($product_id);
-        // $input = $this->request->getPost();
-        
         $input = $this->request->getRawInput();
-        
 		$data = [   
 			'productname' => $input['productname'],
             'productprice' => $input['productprice'],
             'productcode' => $input['productcode'],
 		];
-
 		if ($model->update($product_id, $data) === false){
             $session->setFlashdata('errors', $model->errors()); 
         }else{
@@ -139,12 +121,9 @@ class Home extends BaseController
 		return redirect()->to('product_list_dtable');
 	}
 
-    public function delete($product_id)
-	{	
+    public function delete($product_id){	
         $session = session();
 		$model = new SessionModel();
-        // $model->delete($product_id);
-
         if ($model->delete($product_id) === false){
             $session->setFlashdata('errors', $model->errors());
         }else{

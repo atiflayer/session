@@ -14,19 +14,14 @@
 <body>
     <div class="container" style="margin-top:16px">
         <h4>Insert Your Product</h4>
-
         <form action="<?= base_url('postdata')?>" method="POST">
-
             <div class="mb-3">
                 <label for="productcode" class="form-label">Product Code</label>
-                <!-- <input type="text" class="form-control" name="productcode" value="" id="productcode"> -->
 
-
-                <select onchange='autofillFunction(<?= json_encode($products) ?>)' id="productcode" class="form-select" name="productcode" id="productcode">
+                <select onchange='autofillFunction(<?= json_encode($products) ?>)' id="productcode" class="form-select"
+                    name="productcode" id="productcode">
+                    
                     <option selected>Select Product Code</option>
-
-                    <!-- Inserted Product Code in Options   -->
-
                     <?php
                     if($products){
                         foreach($products as $product){?>
@@ -34,24 +29,23 @@
                         <?php echo $product['productcode']; ?>
                     </option>
                     <?php }}?>
-
                 </select>
 
                 <script>
-                    function autofillFunction(products){
-                        var code = document.getElementById('productcode').value;
-                        for(let i=0; i<products.length; i++){
-                            if(products[i].product_id==code){
-                                document.getElementById('product_id').value = products[i].product_id;
-                                document.getElementById('productname').value = products[i].productname;
-                                document.getElementById('productprice').value = products[i].productprice;
-                            }
+                function autofillFunction(products) {
+                    var code = document.getElementById('productcode').value;
+                    for (let i = 0; i < products.length; i++) {
+                        if (products[i].product_id == code) {
+                            document.getElementById('product_id').value = products[i].product_id;
+                            document.getElementById('productname').value = products[i].productname;
+                            document.getElementById('productprice').value = products[i].productprice;
                         }
                     }
+                }
                 </script>
             </div>
             <div class="mb-3">
-                <label  for="product_id" class="form-label">Product ID</label>
+                <label for="product_id" class="form-label">Product ID</label>
                 <input type="text" class="form-control" name="product_id" value="" id="product_id">
             </div>
             <div class="mb-3">
@@ -66,32 +60,12 @@
                 <label for="product_inout_quantity_in" class="form-label">Product Quantity In</label>
                 <input type="text" class="form-control" name="product_inout_quantity_in" value="0">
             </div>
-            <div class="mb-3">
-                <label for="product_inout_quantity_out" class="form-label">Product Quantity Out</label>
-                <input type="text" class="form-control" name="product_inout_quantity_out" value="0">
-            </div>
-            <!--            <div class="form-check">
-                <input class="form-check-input" type="radio" name="in_out" id="in_out" value="">
-                <label class="form-check-label" for="income">Product In</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="in_out" id="in_out" value="">
-                <label class="form-check-label" for="income">Product Out</label>
-            </div>
-            </br>-->
             <button type="submit" class="btn btn-success">Add to Cart</button>
         </form>
     </div>
     <div class="container" style="margin-top:16px">
-
-
-        <?php if(session()->getFlashdata('status')){
-        echo "<h5>".session()->getFlashdata('status'). "</h4>";} ?>
-
-        <?php if(session()->getFlashdata('errors')){
-        foreach (session()->getFlashdata('errors') as $field => $error): ?>
-        <h4<?= $error ?>< /h4>
-            <?php endforeach ;}?>
+        <?php if(session()->getFlashdata('status')){ echo "<h5>".session()->getFlashdata('status'). "</h4>";} ?>
+        <?php if(session()->getFlashdata('errors')){ foreach (session()->getFlashdata('errors') as $field => $error){?><h4<?= $error ?>< /h4><?php }}?>
 
             <form action="<?= base_url('postsubmit')?>" method="POST">
                 <h4>Products in Cart</h4>
@@ -173,7 +147,8 @@
     //         },
     //     });
     // });
-    // </script>
+    // 
+    </script>
 
 </body>
 

@@ -14,9 +14,7 @@
 <body>
     <div class="container" style="margin-top:16px">
         <h4>Create Your Product</h4>
-
         <form action="<?= base_url('postdata')?>" method="POST">
-
             <div class="mb-3">
                 <label for="productname" class="form-label">Product Name</label>
                 <input type="text" class="form-control" name="productname">
@@ -29,20 +27,12 @@
                 <label for="productprice" class="form-label">Product Price</label>
                 <input type="number" class="form-control" name="productprice">
             </div>
-
             <button type="submit" class="btn btn-success">Add to Cart</button>
         </form>
     </div>
     <div class="container" style="margin-top:16px">
-
-        <?php if(session()->getFlashdata('status')){
-                echo "<h5>".session()->getFlashdata('status'). "</h4>";} ?>
-
-        <?php if(session()->getFlashdata('errors')){
-             foreach (session()->getFlashdata('errors') as $field => $error): ?>
-        <h4<?= $error ?></h4>
-        <?php endforeach ;}?>
-
+        <?php if(session()->getFlashdata('status')){echo "<h5>".session()->getFlashdata('status'). "</h4>";} ?>
+        <?php if(session()->getFlashdata('errors')){foreach (session()->getFlashdata('errors') as $field => $error): ?><h4<?= $error ?></h4><?php endforeach ;}?>
         <form action="<?= base_url('postsubmit')?>" method="POST">
             <h4>Products in Cart</h4>
             <table id="table" class="table">
