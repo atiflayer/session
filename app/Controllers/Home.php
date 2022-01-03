@@ -12,11 +12,9 @@ class Home extends BaseController
         }else{
             $result['data']=[];
         }
-        return view('product_inout_form', $result);
+        return view('index', $result);
     }
-
     //add to cart / session
-
     public function postData(){
         $session = session();
         if(isset($session->productdata)){
@@ -26,6 +24,7 @@ class Home extends BaseController
                 'productprice' => $this->request->getPost('productprice'),
                 'productcode' => $this->request->getPost('productcode')
             ];
+            //for unique product code
             foreach($oldarray as $row){
                 if($data['productcode']==$row['productcode']){
                     return redirect()->to(base_url('/'))->with('status', 'Product Already Exists');
@@ -46,7 +45,7 @@ class Home extends BaseController
          $result=$session->productdata;
          return redirect()->to('/');
     }
-
+    
      public function postsubmit(){
         $session = session();
         $model = new SessionModel();

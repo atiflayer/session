@@ -14,28 +14,28 @@
 <body>
     <div class="container" style="margin-top:16px">
         <h4>Insert Your Product</h4>
-        <form action="<?= base_url('postdata')?>" method="POST">
+        <form action="<?= base_url('inout/postdata')?>" method="POST">
             <div class="mb-3">
                 <label for="productcode" class="form-label">Product Code</label>
 
-                <select onchange='autofillFunction(<?= json_encode($products) ?>)' id="productcode" class="form-select"
-                    name="productcode" id="productcode">
-                    
+                <!-- Select AutoFill with DOM Not AJAX -->
+
+                <select onchange='autofillFunction(<?= json_encode($products) ?>)' name="productcode" id="productcode"
+                    class="form-select">
                     <option selected>Select Product Code</option>
                     <?php
                     if($products){
                         foreach($products as $product){?>
-                    <option value="<?php echo $product['product_id']; ?>">
+                    <option value="<?php echo $product['productcode']; ?>">
                         <?php echo $product['productcode']; ?>
                     </option>
                     <?php }}?>
                 </select>
-
                 <script>
                 function autofillFunction(products) {
                     var code = document.getElementById('productcode').value;
                     for (let i = 0; i < products.length; i++) {
-                        if (products[i].product_id == code) {
+                        if (products[i].productcode == code) {
                             document.getElementById('product_id').value = products[i].product_id;
                             document.getElementById('productname').value = products[i].productname;
                             document.getElementById('productprice').value = products[i].productprice;
@@ -44,9 +44,13 @@
                 }
                 </script>
             </div>
+            <!-- <div class="mb-3">
+                <label for="productcode" class="form-label">Product Code</label>
+                <input type="number" class="form-control" name="productcode" value="" id="productcode">
+            </div> -->
             <div class="mb-3">
                 <label for="product_id" class="form-label">Product ID</label>
-                <input type="text" class="form-control" name="product_id" value="" id="product_id">
+                <input type="number" class="form-control" name="product_id" value="" id="product_id">
             </div>
             <div class="mb-3">
                 <label for="productname" class="form-label">Product Name</label>
@@ -56,18 +60,27 @@
                 <label for="productprice" class="form-label">Product Price</label>
                 <input type="number" class="form-control" name="productprice" value="0" id="productprice">
             </div>
+<!--            <div class="mb-3">
+                <label for="product_inout_date" class="form-label">Product In Date</label>
+                <input type="date" class="form-control" name="product_inout_date" value="0" id="product_inout_date">
+            </div>-->
             <div class="mb-3">
                 <label for="product_inout_quantity_in" class="form-label">Product Quantity In</label>
-                <input type="text" class="form-control" name="product_inout_quantity_in" value="0">
+                <input type="number" class="form-control" name="product_inout_quantity_in"
+                    id="product_inout_quantity_in" value="0">
             </div>
             <button type="submit" class="btn btn-success">Add to Cart</button>
         </form>
     </div>
+
+    <!-- CART OR SESSION -->
+
     <div class="container" style="margin-top:16px">
         <?php if(session()->getFlashdata('status')){ echo "<h5>".session()->getFlashdata('status'). "</h4>";} ?>
-        <?php if(session()->getFlashdata('errors')){ foreach (session()->getFlashdata('errors') as $field => $error){?><h4<?= $error ?>< /h4><?php }}?>
+        <?php if(session()->getFlashdata('errors')){ foreach (session()->getFlashdata('errors') as $field => $error){?>
+        <h4<?= $error ?>< /h4><?php }}?>
 
-            <form action="<?= base_url('postsubmit')?>" method="POST">
+            <form action="<?= base_url('inout/postsubmit')?>" method="POST">
                 <h4>Products in Cart</h4>
                 <table id="table" class="table">
                     <thead>
@@ -76,20 +89,24 @@
                             <th>Product Code</th>
                             <th>Product Name</th>
                             <th>Product Price</th>
+                            <th>Product Quantity</th>
+                            <th>Final Price</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!--                        </?php $serial=1; foreach($data as $row): ?>
+                        <?php $serial=1; foreach($data as $product): ?>
                         <tr>
-                            <th></?= $serial++ ?></th>
-                            <td></?= $row['productcode'] ?></td>
-                            <td></?= $row['productname'] ?></td>
-                            <td></?= $row['productprice'] ?></td>
+                            <th><?= $serial++ ?></th>
+                            <td><?= $product['productcode'] ?></td>
+                            <td><?= $product['productname'] ?></td>
+                            <td><?= $product['productprice'] ?></td>
+                            <td><?= $product['product_inout_quantity_in']?></td>
+                            <td><?= $product['product_finalprice']?></td>
                         </tr>
-                        </?php endforeach; ?>-->
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
-                <button type="submit" class="btn btn-primary">Submit to Product List</button>
+                <button type="submit" class="btn btn-primary">Submit to Product Quantity List</button>
             </form></br>
             <div>
                 <a href="<?= base_url('product_list_dtable')?>" class="btn btn-secondary">List of Products</a>

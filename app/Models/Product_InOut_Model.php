@@ -13,7 +13,8 @@ class Product_InOut_Model extends Model
         'product_inout_price',
         'product_inout_date',
         'product_inout_quantity_in',
-        'product_inout_quantity_out',
+        'product_finalprice',
+        
     ];
 
     public function get_all_data()
@@ -26,7 +27,7 @@ class Product_InOut_Model extends Model
                 'product_inout_price', 
                 'product_inout_date',
                 'product_inout_quantity_in',
-                'product_inout_price'];
+                'product_finalprice'];
             $this->column_order = array(
                 'sl',
                 // 'product_id',
