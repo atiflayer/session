@@ -123,20 +123,21 @@
                         </tr>
                     </tfoot>
                 </table>
+                
                 <div class="mb-3">
                 <label for="invoice_customerName" class="form-label">Customer Name</label>
-                <input type="number" class="form-control" name="invoice_customerName" value="" id="invoice_customerName">
+                <input type="text" class="form-control" name="invoice_customerName" value="" id="invoice_customerName">
             </div>
             <div class="mb-3">
                 <label for="invoice_customerPhone" class="form-label">Customer Phone</label>
-                <input type="text" class="form-control" name="invoice_customerPhone" value="" id="invoice_customerPhone">
+                <input type="number" class="form-control" name="invoice_customerPhone" value="" id="invoice_customerPhone">
             </div>
             <div class="mb-3">
                 <label for="invoice_customerAddress" class="form-label">Customer Address</label>
-                <input type="number" class="form-control" name="invoice_customerAddress" value="" id="invoice_customerAddress">
-            </div>
-                <button type="submit" class="btn btn-primary">Submit to Product Quantity List and Invoice</button>  
-            </form></br>
+                <input type="text" class="form-control" name="invoice_customerAddress" value="" id="invoice_customerAddress">
+            </div><button type="submit" class="btn btn-primary">Submit to Product Quantity List and Invoice</button>  
+            </form>
+        </br>
             <div>
                 <a href="<?= base_url('product_list_dtable')?>" class="btn btn-secondary">List of Products</a>
             </div>

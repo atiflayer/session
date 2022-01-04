@@ -41,6 +41,7 @@ class Product_InOut_Model extends Model
             $builder->select('*');
 
             $builder->join('session', 'session.product_id = product_inout.product_id', "left"); // added left join here
+            $builder->join('invoice', 'invoice.invoice_id = product_inout.invoice_id', "left"); // added left join here
 
             $builder->limit($_POST["length"], $_POST["start"]);
             $query=$builder->get()->getResult();
