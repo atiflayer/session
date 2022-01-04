@@ -34,7 +34,7 @@ $routes->setAutoRoute(true);
 
 
 $routes->get('/',                      'ProductInOut::product_inout_form');
-$routes->get('/',                      'ProductInOut::product_inout_form');
+// $routes->get('/',                      'ProductInOut::product_inout_form');
 
 $routes->get('in/(:any)',              'ProductInOut::product_in_form/$1');
 $routes->get('out/(:any)',             'ProductInOut::product_out_form/$1');

@@ -58,7 +58,7 @@
             </div>
             <div class="mb-3">
                 <label for="productprice" class="form-label">Product Price</label>
-                <input type="number" class="form-control" name="productprice" value="0" id="productprice">
+                <input type="number" class="form-control" name="productprice" value="" id="productprice">
             </div>
 <!--            <div class="mb-3">
                 <label for="product_inout_date" class="form-label">Product In Date</label>
@@ -66,8 +66,7 @@
             </div>-->
             <div class="mb-3">
                 <label for="product_inout_quantity_in" class="form-label">Product Quantity In</label>
-                <input type="number" class="form-control" name="product_inout_quantity_in"
-                    id="product_inout_quantity_in" value="0">
+                <input type="number" class="form-control" name="product_inout_quantity_in" id="product_inout_quantity_in" value="">
             </div>
             <button type="submit" class="btn btn-success">Add to Cart</button>
         </form>
@@ -91,10 +90,13 @@
                             <th>Product Price</th>
                             <th>Product Quantity</th>
                             <th>Final Price</th>
+                            <!-- <th>Total Price</th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $serial=1; foreach($data as $product): ?>
+                        <?php $serial=1; 
+                        $totalprice = 0; 
+                        $totalquantity = 0; foreach($data as $product): ?>
                         <tr>
                             <th><?= $serial++ ?></th>
                             <td><?= $product['productcode'] ?></td>
@@ -102,11 +104,38 @@
                             <td><?= $product['productprice'] ?></td>
                             <td><?= $product['product_inout_quantity_in']?></td>
                             <td><?= $product['product_finalprice']?></td>
+                            <!--<td></?= $product['totalprice']?></td>-->
                         </tr>
-                        <?php endforeach; ?>
+                        <?php 
+                        $totalprice += $product['product_finalprice'];
+                        $totalquantity += $product['product_inout_quantity_in']; 
+                        endforeach; ?>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Sum</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <th><?= $totalquantity ?></th>
+                            <th><?= $totalprice ?></th>
+                            <!--<th></?= $product['totalprice']?></th>-->
+                        </tr>
+                    </tfoot>
                 </table>
-                <button type="submit" class="btn btn-primary">Submit to Product Quantity List</button>
+                <div class="mb-3">
+                <label for="invoice_customerName" class="form-label">Customer Name</label>
+                <input type="number" class="form-control" name="invoice_customerName" value="" id="invoice_customerName">
+            </div>
+            <div class="mb-3">
+                <label for="invoice_customerPhone" class="form-label">Customer Phone</label>
+                <input type="text" class="form-control" name="invoice_customerPhone" value="" id="invoice_customerPhone">
+            </div>
+            <div class="mb-3">
+                <label for="invoice_customerAddress" class="form-label">Customer Address</label>
+                <input type="number" class="form-control" name="invoice_customerAddress" value="" id="invoice_customerAddress">
+            </div>
+                <button type="submit" class="btn btn-primary">Submit to Product Quantity List and Invoice</button>  
             </form></br>
             <div>
                 <a href="<?= base_url('product_list_dtable')?>" class="btn btn-secondary">List of Products</a>
@@ -119,6 +148,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
     </script>
+
+
     <script type='text/javascript'>
     // $(document).ready(function() {
     //     // Initialize

@@ -39,36 +39,20 @@ class ProductInOut extends BaseController
                 // 'product_inout_date' => $input['product_inout_date'],
             ];
 
-            //check for unique productcode
+            // Using Foreach
 
-            // foreach($oldarray as $row){
-            //     if($data['productcode']==$row['productcode']){
-            //         return redirect()->to(base_url('/'))->with('status', 'Product Already Exists');
-            //     }
-            // }
+            foreach($oldarray as $key => $value){
+                if($oldarray[$key]['productcode'] == $data['productcode']){
+                    $oldarray[$key]['product_inout_quantity_in'] += $data['product_inout_quantity_in'];
+                    $oldarray[$key]['product_finalprice'] = $oldarray[$key]['product_inout_quantity_in']*$oldarray[$key]['productprice'];
 
-            //check for same record -> update record
-
-            foreach($oldarray as $row){
-                if($data['productcode'] == $row['productcode']){
-                    $row['product_inout_quantity_in'] += $data['product_inout_quantity_in'];
-
-                    
-                    // echo '<pre>';
-                    // print_r($oldarray[0]);
-                    // exit;
-                    
-
-                    // array_push($oldarray, $row);
-                    // $session->set('productdata', $oldarray);
-
-
+                    $session->set('productdata', $oldarray);
                     return redirect()->to('/');
                 }
             }
-            array_push($oldarray, $data);
-            $session->set('productdata', $oldarray);
 
+            array_push($oldarray, $data);   
+            $session->set('productdata', $oldarray);
 
 
             
@@ -86,6 +70,21 @@ class ProductInOut extends BaseController
             $session->set('productdata', $oldarray);
          }
          $result=$session->productdata;
+
+        //  foreach($result as $key => $value){
+
+
+        //     $result['totalprice'] = $result[$key]['product_finalprice'] ;
+        //     $result['totalprice'] += $data['product_finalprice'];
+
+        //     // $session->set('productdata', $result);
+
+        //     // echo '<pre>';
+        //     // print_r($result);
+        //     // exit;
+        //  }
+
+
          return redirect()->to('/');
     }
 
