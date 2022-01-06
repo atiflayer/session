@@ -14,12 +14,13 @@
 <body>
     <div class="container" style="margin-top:16px">
         <h4>Insert Your Product</h4>
+        
         <form action="<?= base_url('inout/postdata')?>" method="POST">
             <div class="mb-3">
+
+                <!-- Select AutoFill with DOM (Not AJAX) -->
+
                 <label for="productcode" class="form-label">Product Code</label>
-
-                <!-- Select AutoFill with DOM Not AJAX -->
-
                 <select onchange='autofillFunction(<?= json_encode($products) ?>)' name="productcode" id="productcode"
                     class="form-select">
                     <option selected>Select Product Code</option>
@@ -31,6 +32,7 @@
                     </option>
                     <?php }}?>
                 </select>
+
                 <script>
                 function autofillFunction(products) {
                     var code = document.getElementById('productcode').value;
@@ -140,6 +142,10 @@
         </br>
             <div>
                 <a href="<?= base_url('product_list_dtable')?>" class="btn btn-secondary">List of Products</a>
+            </div>
+        </br>
+            <div>
+                <a href="<?= base_url('product_inout_dtable')?>" class="btn btn-secondary">Product In Out</a>
             </div>
     </div>
 

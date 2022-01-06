@@ -10,11 +10,11 @@ class Product_InOut_Model extends Model
     protected $primaryKey = 'product_inout_id';
     protected $allowedFields = [
         'product_id',
+        'invoice_id',
         'product_inout_price',
         'product_inout_date',
         'product_inout_quantity_in',
         'product_finalprice',
-        
     ];
 
     public function get_all_data()
@@ -24,17 +24,20 @@ class Product_InOut_Model extends Model
             $this->primaryKey = 'product_inout_id';
             $this->allowedFields = [ 
                 'product_id',
+                'invoice_id',
                 'product_inout_price', 
                 'product_inout_date',
                 'product_inout_quantity_in',
-                'product_finalprice'];
+                'product_finalprice'
+            ];
             $this->column_order = array(
                 'sl',
-                // 'product_id',
+                'product_id',
+                'invoice_id',
                 'product_inout_price', 
                 'product_inout_date',
                 'product_inout_quantity_in',
-                // 'product_inout_quantity_out'
+                'product_inout_quantity_out'
             );
             $this->order = array('product_id' => 'desc'); //asc //desc
 

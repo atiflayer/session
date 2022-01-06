@@ -22,7 +22,7 @@ class ProductInOut extends BaseController
         return view('product_inout_form', $result);
     }
 
-    //add to cart / session
+    //Add to Cart / Session
 
     public function postData()
     {
@@ -39,10 +39,10 @@ class ProductInOut extends BaseController
                 'productprice' => $input['productprice'],
                 'product_inout_quantity_in' => $input['product_inout_quantity_in'],
                 'product_finalprice' => $input['productprice'] * $input['product_inout_quantity_in'],
-                // 'product_inout_date' => $input['product_inout_date'],
+                'product_inout_date' => $input['product_inout_date'],
             ];
 
-            // Using Foreach
+            // Using Foreach to Increase Quantity and CALC Price
 
             foreach ($oldarray as $key => $value) {
                 if ($oldarray[$key]['productcode'] == $data['productcode']) {
@@ -71,6 +71,8 @@ class ProductInOut extends BaseController
         }
         $result = $session->productdata;
 
+        //SESSION CALC TOTAL PRICE (CHECK VIEW LOGIC)
+
         //  foreach($result as $key => $value){
 
         //     $result['totalprice'] = $result[$key]['product_finalprice'] ;
@@ -86,36 +88,50 @@ class ProductInOut extends BaseController
         return redirect()->to('/');
     }
 
-    //SUBMIT TO DATABASE
+    //SUBMIT TO DATABASE (BOTH PRODUCTINOUT AND INVOICE)
 
     public function postsubmit()
     {
         $session = session();
         $model = new Product_InOut_Model();
+        $invoice = new InvoiceModel();
 
         $result = $session->productdata;
 
-        // $product_id = $this->request->getPost('product_id');
+        // $db = \Config\Database::connect();
+        // $builder = $db->table('invoice');
+        // $builder->select('MAX(invoice_id) as max_id');
+        // $query = $builder->get()->getResult();  
 
-        $db = \Config\Database::connect();
-        $builder = $db->table('invoice');
-        $builder->select('invoice_id');
-        $query = $builder->get()->getResult();
+        $input = $this->request->getPost();
 
-        // echo '<pre>';
-        // print_r($query[]->invoice_id);
-        // exit;
+        $data = [
+            'invoice_customerName' => $input['invoice_customerName'],
+            'invoice_customerPhone' => $input['invoice_customerPhone'],
+            'invoice_customerAddress' => $input['invoice_customerAddress'],
+            // 'invoice_total' => $result['totalprice'],
+        ];
+        $save_invoice_data = $invoice->save($data);
+
+        if ($save_invoice_data === false) {
+            $session->setFlashdata('errors', $invoice->errors());
+        } else {
+            $parent_id = $invoice->insertID;
+            $session->setFlashdata('status', 'Product In/Out and Invoice Successfully');
+        }
 
         foreach ($result as $row) {
             $data = [
                 'product_id' => $row['product_id'],
-                // 'invoice_id' => $query->invoice_id,
+                'invoice_id' => $parent_id,
                 'product_inout_price' => $row['productprice'],
                 'product_inout_quantity_in' => $row['product_inout_quantity_in'],
                 'product_finalprice' => $row['product_finalprice'],
-                // 'product_inout_date'=>$row['product_inout_date'],
+                'product_inout_date'=>$row['product_inout_date'],
             ];
-            if ($model->save($data) === false) {
+            $insert_session_data = $model->save($data);
+
+            if ($insert_session_data === false) {
                 $session->setFlashdata('errors', $model->errors());
             } else {
                 $session->setFlashdata('status', 'Product Purchased Successfully');
@@ -123,22 +139,6 @@ class ProductInOut extends BaseController
         }
         $session->remove('productdata');
 
-        $invoice = new InvoiceModel();
-        $input = $this->request->getPost();
-
-        $data = [
-            // 'invoice_id' => $input['invoice_id'],
-            'invoice_customerName' => $input['invoice_customerName'],
-            'invoice_customerPhone' => $input['invoice_customerPhone'],
-            'invoice_customerAddress' => $input['invoice_customerAddress'],
-            // 'invoice_total' => $result['totalprice'],
-        ];
-
-        if ($invoice->save($data) === false) {
-            $session->setFlashdata('errors', $invoice->errors());
-        } else {
-            $session->setFlashdata('status', 'Product In/Out and Invoice Successfull');
-        }
         return redirect()->to('/');
     }
 
@@ -146,27 +146,26 @@ class ProductInOut extends BaseController
 
     public function get_inout_data()
     {
-        $value = new Product_InOut_Model();
-        $get_data = $value->get_all_data();
+        $inout = new Product_InOut_Model();
+        $get_data = $inout->get_all_data();
 
         $i = $_POST['start'];
 
         foreach ($get_data as $val) {
             $data[] = [
                 ++$i,
-                // $val->product_id,
-                // $val->productcode,
-                // $val->productname,
-                // $val->productprice,
+                $val->product_id,
+                $val->invoice_id,
                 $val->product_inout_price,
                 $val->product_inout_date,
                 $val->product_inout_quantity_in,
+                $val->product_finalprice,
             ];
         }
         $output = [
             'draw' => $_POST['draw'],
-            'recordsTotal' => $value->countAll(),
-            'recordsFiltered' => $value->countFiltered(),
+            'recordsTotal' => $inout->countAll(),
+            'recordsFiltered' => $inout->countFiltered(),
             'data' => isset($data) ? $data : [],
         ];
         echo json_encode($output);
@@ -176,6 +175,43 @@ class ProductInOut extends BaseController
     {
         return view('product_inout_dtable');
     }
+
+    public function get_invoice_data()
+    {
+        $inout = new Product_InOut_Model();
+        $get_data = $inout->get_all_data();
+
+        $i = $_POST['start'];
+
+        foreach ($get_data as $val) {
+            $data[] = [
+                ++$i,
+                $val->product_id,
+                $val->invoice_id,
+                $val->product_inout_price,
+                $val->product_inout_date,
+                $val->product_inout_quantity_in,
+                $val->product_finalprice,
+            ];
+        }
+        $output = [
+            'draw' => $_POST['draw'],
+            'recordsTotal' => $inout->countAll(),
+            'recordsFiltered' => $inout->countFiltered(),
+            'data' => isset($data) ? $data : [],
+        ];
+        echo json_encode($output);
+    }
+
+    public function invoice()
+    {
+        return view('invoice');
+    }
+
+
+
+
+    //REDUCNDANT FOR NOW
 
     //FOR DATA TABLE FETCH 2
 
@@ -194,8 +230,7 @@ class ProductInOut extends BaseController
             'product_id' => $input['product_id'],
             'product_inout_date' => $input['product_inout_date'],
             'product_inout_quantity_in' => $input['product_inout_quantity_in'],
-            'product_inout_quantity_out' =>
-            $input['product_inout_quantity_out'],
+            'product_inout_quantity_out' => $input['product_inout_quantity_out'],
         ];
 
         if ($model->save($data) === false) {

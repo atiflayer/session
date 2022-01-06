@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
 </head>
 
 <body>
@@ -34,12 +32,12 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <!-- <th>Product Code</th> -->
-                    <!-- <th>Product Name</th> -->
-                    <!-- <th>Product Price</th> -->
-                    <th>Product InOut Price</th>
-                    <th>Product InOut Date</th>
-                    <th>Product InOut Quantity</th>
+                    <th>Product ID</th>
+                    <th>Invoice ID</th>
+                    <th>Product Price</th>
+                    <th>Product Date</th>
+                    <th>Product Quantity In</th>
+                    <th>Product Final Price</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,7 +64,7 @@ function callServer() {
         "responsive": true,
         "processing": true,
         "serverSide": true,
-        "pageLength": 5,
+        "pageLength": 10,
         "ajax": {
             url: "<?php echo base_url('inout/getdata'); ?>",
             type: 'POST',
@@ -88,7 +86,7 @@ function callServer() {
             },
             {
                 "data": null,
-                className: "text-left",
+                className: "text-right",
                 render: function(data, type, row) {
                     return data[2];
                 }
@@ -100,27 +98,27 @@ function callServer() {
                     return data[3];
                 }
             },
-            // {
-            //     "data": null,
-            //     className: "text-right",
-            //     render: function(data, type, row) {
-            //         return data[4];
-            //     }
-            // },
-            // {
-            //     "data": null,
-            //     className: "text-right",
-            //     render: function(data, type, row) {
-            //         return data[5];
-            //     }
-            // },
-            // {
-            //     "data": null,
-            //     className: "text-right",
-            //     render: function(data, type, row) {
-            //         return data[6];
-            //     }
-            // },
+            {
+                "data": null,
+                className: "text-right",
+                render: function(data, type, row) {
+                    return data[4];
+                }
+            },
+            {
+                "data": null,
+                className: "text-right",
+                render: function(data, type, row) {
+                    return data[5];
+                }
+            },
+            {
+                "data": null,
+                className: "text-right",
+                render: function(data, type, row) {
+                    return data[6];
+                }
+            },
         ]
     });
 }
